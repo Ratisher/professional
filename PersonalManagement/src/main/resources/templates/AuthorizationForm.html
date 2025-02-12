@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title>Авторизация сотрудника</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+    </head>
+    <body>
+    <main>
+        <form method="get" action="/web/signIn">
+            <table>
+                <tr>
+                    <td>
+                        <label>Логин</label>
+                        <input id="loginInput" type="text" name="login">
+                    </td>
+                    <td>
+                        <label>Пароль</label>
+                        <input id="passwordInput" type="password" name="password">
+                    </td>
+                    <td>
+                        <button id="authorizationButton" type="submit">Войти</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </main>
+        <script src="/js/login.js"></script>
+</body>
+</html>
