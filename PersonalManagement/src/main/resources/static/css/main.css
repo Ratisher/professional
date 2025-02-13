@@ -10,19 +10,18 @@ body {
 header {
     min-height: 115px;
     background-color: #89FC43;
-    padding-top: 30px;
-    box-sizing: border-box;
     width: 100%;
     display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .logo {
     border-radius: 100px;
     background-color: grey;
-    width: 70px;
-    height: 70px;
-    margin-left: 20px;
-    float: left;
+    width: 80px;
+    height: 80px;
 }
 
 main {
@@ -39,7 +38,6 @@ main {
     background-color: white;
     font-size: 17px;
     margin-left: 5%;
-    float: right;
 }
 
 .scrollable-container {
@@ -58,11 +56,9 @@ main {
 .employee-block {
     display: inline-block;
     min-width: 200px;
-    vertical-align: top;
     border: 1px solid #ccc;
     padding: 10px;
     margin-right: 20px;
-    box-sizing: border-box;
     background-color: #78B24B;
     color: white;
 }
@@ -89,7 +85,6 @@ main {
     width: 400px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    overflow: hidden;
     margin-bottom: 25px;
 }
 
@@ -97,7 +92,6 @@ main {
     background-color: #79BA47;
     padding: 10px;
     font-weight: bolder;
-    text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -126,7 +120,7 @@ main {
     background: none;
     border: none;
     color: white;
-    font-size: 1.2em;
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -146,22 +140,12 @@ main {
     margin-top: 5px;
 }
 
-.event-date {
-    margin-top: 10px;
-}
-
 .mainNewsContainer {
     padding-left: 30px;
-    box-sizing: border-box;
 }
 
 .main-content-container {
     display: flex;
-    flex-wrap: wrap;
-}
-
-.event-container {
-    box-sizing: border-box;
 }
 
 .news-container {
@@ -194,4 +178,26 @@ main {
 .newsTitle {
     margin-bottom: 5px;
     margin-top: 15px;
+}
+
+.calendar-button {
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+}
+
+.calendar-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.main-date-element {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
 }

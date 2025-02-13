@@ -2,7 +2,7 @@ async function getEmployees() {
     try {
         const response = await fetch('http://localhost:8080/api/v1/employee/allEmployee');
         if (!response.ok) {
-            throw new Error('твет пришёл с ошибкой ' + response.status);
+            throw new Error('Ответ пришёл с ошибкой ' + response.status);
         }
         const employees = await response.json();
         return employees;
@@ -36,19 +36,19 @@ function createEmployeeBlock(employee, position) {
 
     const OElement = document.createElement('h3');
     OElement.textContent = employee.patronymic;
-    
+
     const positionElement = document.createElement('p');
     positionElement.textContent = position.name;
     positionElement.classList.add('position');
-    
+
     const emailElement = document.createElement('p');
     emailElement.textContent = employee.email;
     emailElement.classList.add('email');
-    
+
     const telephoneElement = document.createElement('p');
     telephoneElement.textContent = employee.telephone;
     telephoneElement.classList.add('telephone');
-    
+
     const date = new Date(employee.dateOfBirth);
     const day = date.getDate();
     const month = date.getMonth();
@@ -89,7 +89,7 @@ function createEmployeeBlock(employee, position) {
     if (month == 11) {
         monthName = 'Декабря';
     }
-    
+
     const dateElement = document.createElement('p');
     dateElement.textContent = day + ' ' + monthName;
     dateElement.classList.add('date');
@@ -108,16 +108,11 @@ async function displayEmployees() {
     const employees = await getEmployees();
     const employeeContainer = document.getElementById('employee-container');
 
-    if (employees.length == 0) {
-        employeeContainer.textContent = 'Нет данных о сотрудниках';
-        return;
-    }
-
     for (const employee of employees) {
         const position = await getPosition(employee.positionId);
         const employeeBlock = createEmployeeBlock(employee, position);
         employeeContainer.appendChild(employeeBlock);
-    };
+    }
 }
 
 async function getEvents() {
@@ -132,61 +127,71 @@ async function getEvents() {
     } catch (error) {
         console.error('Ошибка отправки запроса', error);
         return [];
-    }  
+    }
 }
 
 function createEventBlock(event) {
     const eventBlock = document.createElement('div');
     eventBlock.classList.add('event-block');
-    
+
     const nameElement = document.createElement('h3');
     nameElement.classList.add('event-name');
     nameElement.textContent = event.name;
-    
+
     const discriptionElement = document.createElement('p');
     discriptionElement.classList.add('event-discription');
     discriptionElement.textContent = event.discription;
-    
+
     const dateElement = document.createElement('p');
     dateElement.classList.add('event-date');
+
+    const buttonElement = document.createElement('button');
+    buttonElement.classList.add('calendar-button');
+
+    const calendarImage = document.createElement('img');
+    calendarImage.src = '/img/Calendar.jpg';
+    calendarImage.alt = 'Календарь';
+    
+    buttonElement.appendChild(calendarImage);
+
+    const mainDateElement = document.createElement('div');
+    mainDateElement.appendChild(buttonElement);
+    mainDateElement.appendChild(dateElement);
+    mainDateElement.classList.add('main-date-element');
     
     const date = new Date(event.dateTime);
     let finalDate;
-    if (date.getMonth()+1 < 10 && date.getDay()+1 < 10) {
-        finalDate = '0'+(date.getDay()+1)+'.0'+(date.getMonth()+1)+'.'+date.getFullYear();
+    if (date.getMonth() + 1 < 10 && date.getDay() + 1 < 10) {
+        finalDate = '0' + (date.getDay() + 1) + '.0' + (date.getMonth() + 1) + '.' + date.getFullYear();
     } else {
-        if (date.getMonth()+1 < 10) {
-            finalDate = (date.getDay()+1)+'.0'+(date.getMonth()+1)+'.'+date.getFullYear();
+        if (date.getMonth() + 1 < 10) {
+            finalDate = (date.getDay() + 1) + '.0' + (date.getMonth() + 1) + '.' + date.getFullYear();
         } else {
-            if (date.getDay()+1 < 10) {
-                finalDate = '0'+(date.getDay()+1)+'.'+(date.getMonth()+1)+'.'+date.getFullYear();;
+            if (date.getDay() + 1 < 10) {
+                finalDate = '0' + (date.getDay() + 1) + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
             }
         }
     }
-    
+
     dateElement.textContent = finalDate;
-    
+
     eventBlock.appendChild(nameElement);
     eventBlock.appendChild(discriptionElement);
-    eventBlock.appendChild(dateElement);
-    
+    eventBlock.appendChild(mainDateElement);
+
     return eventBlock;
 }
 
 async function displayEvents() {
     const events = await getEvents();
     const eventContainer = document.getElementById('event-container');
-    
-    if (events.length == 0) {
-        eventContainer.textContent = 'Нет данных о событиях';
-        return;
-    }
-    
+
     for (const event of events) {
         const eventBlock = createEventBlock(event);
         eventContainer.appendChild(eventBlock);
     }
 }
 
+// Вызов функций при прогрузке страницы
 document.addEventListener('DOMContentLoaded', displayEmployees);
 document.addEventListener('DOMContentLoaded', displayEvents);

@@ -25,11 +25,7 @@ public class WebController {
     public ModelAndView signIn(@RequestParam("login") String login, @RequestParam("password") String password){
         Employee employee = employeeRepository.findByLoginPassword(login, password);
         if (employee != null) {
-            ModelAndView successModel = new ModelAndView("welcome");
-            System.out.println(employee);
-            successModel.addObject("employee", employee);
-            successModel.addObject("message", "Привет");
-            return successModel;
+            return new ModelAndView("welcome");
         }
         else {
             return new ModelAndView("login");

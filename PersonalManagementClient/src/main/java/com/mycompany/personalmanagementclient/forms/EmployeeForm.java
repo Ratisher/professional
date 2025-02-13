@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -45,14 +46,52 @@ public class EmployeeForm extends javax.swing.JFrame {
      */
     public EmployeeForm() {
         initComponents();
-        jList1.setModel(divisionsModel);
         createDivisionsList();
-        jList1.setSelectedValue("Дороги России", false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(new EmptyBorder(8, 12, 8, 12));
-        loadEmployeeData(jList1.getSelectedValue());
     }
 
+    private void createDepartment() {
+        divisionPanel.setLayout(new BoxLayout(divisionPanel, BoxLayout.Y_AXIS));
+        
+        Request request = new Request.Builder()
+                .url("http://localhost:8080/api/v1/division/allDivision")
+                .get()
+                .build();
+        
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            JSONArray ja = new JSONArray(response.body().string());
+            HashMap<Integer, JPanel> panels = new HashMap<>();
+            for (int i = 0; i < ja.length(); i++) {
+                JSONObject jo = ja.getJSONObject(i);
+                
+                int levelCode = jo.getString("discription").length();
+                
+                JPanel levelPanel = panels.get(levelCode);
+                if (levelPanel == null) {
+                    JPanel panel = new JPanel();
+                    panel.setBackground(new Color(137,252,67));
+                    panel = levelPanel;
+                    levelPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+                    panels.put(levelCode, panel);
+                }
+                
+                JPanel divisionPanel = new JPanel();
+                divisionPanel.setBackground(new Color(120,178,75));
+                JLabel divisionName = new JLabel();
+                divisionName.setText(jo.getString("name"));
+                divisionPanel.add(divisionName);
+                levelPanel.add(divisionPanel);
+                
+                int selectedDivision = jo.getInt("divisionID");
+                
+                divisionPanel.addMouseListener =
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     private void createDivisionsList() {
         Request getDivisions = new Request.Builder()
                 .url("http://localhost:8080/api/v1/division/allDivision")
@@ -205,16 +244,16 @@ public class EmployeeForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainPanel = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        divisionPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Сотрудник отдела кадров");
+        setMinimumSize(new java.awt.Dimension(1600, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -265,27 +304,6 @@ public class EmployeeForm extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(137, 252, 67));
-
-        jList1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jList1);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
-        );
-
         jScrollPane1.setBackground(new java.awt.Color(204, 255, 204));
 
         mainPanel.setBackground(new java.awt.Color(137, 252, 67));
@@ -326,14 +344,26 @@ public class EmployeeForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout divisionPanelLayout = new javax.swing.GroupLayout(divisionPanel);
+        divisionPanel.setLayout(divisionPanelLayout);
+        divisionPanelLayout.setHorizontalGroup(
+            divisionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 796, Short.MAX_VALUE)
+        );
+        divisionPanelLayout.setVerticalGroup(
+            divisionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 704, Short.MAX_VALUE)
+        );
+
+        jScrollPane3.setViewportView(divisionPanel);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -345,11 +375,11 @@ public class EmployeeForm extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -366,13 +396,6 @@ public class EmployeeForm extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        mainPanel.removeAll();
-        loadEmployeeData(jList1.getSelectedValue());
-        mainPanel.revalidate();
-        mainPanel.repaint();
-    }//GEN-LAST:event_jList1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -410,17 +433,16 @@ public class EmployeeForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel divisionPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 }
