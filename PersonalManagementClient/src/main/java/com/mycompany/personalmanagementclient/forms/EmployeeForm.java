@@ -15,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.Box;
@@ -38,6 +40,7 @@ public class EmployeeForm extends javax.swing.JFrame {
     public static int clickedUserId;
 
     public static int employeeID;
+    public String nameOfDivision;
     private DefaultListModel divisionsModel = new DefaultListModel();
     private OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -46,52 +49,66 @@ public class EmployeeForm extends javax.swing.JFrame {
      */
     public EmployeeForm() {
         initComponents();
+        createDivision();
         createDivisionsList();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(new EmptyBorder(8, 12, 8, 12));
     }
 
-    private void createDepartment() {
+    private void createDivision() {
         divisionPanel.setLayout(new BoxLayout(divisionPanel, BoxLayout.Y_AXIS));
-        
+
         Request request = new Request.Builder()
                 .url("http://localhost:8080/api/v1/division/allDivision")
                 .get()
                 .build();
-        
+
         try (Response response = okHttpClient.newCall(request).execute()) {
             JSONArray ja = new JSONArray(response.body().string());
-            HashMap<Integer, JPanel> panels = new HashMap<>();
+            HashMap<Integer, JPanel> levelPanels = new HashMap<>();
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject jo = ja.getJSONObject(i);
-                
+
                 int levelCode = jo.getString("discription").length();
-                
-                JPanel levelPanel = panels.get(levelCode);
+
+                JPanel levelPanel = levelPanels.get(levelCode);
                 if (levelPanel == null) {
                     JPanel panel = new JPanel();
-                    panel.setBackground(new Color(137,252,67));
-                    panel = levelPanel;
-                    levelPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-                    panels.put(levelCode, panel);
+                    panel.setBackground(new Color(137, 252, 67));
+                    levelPanel = panel;
+                    panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+                    levelPanels.put(levelCode, levelPanel);
                 }
-                
+
                 JPanel divisionPanel = new JPanel();
-                divisionPanel.setBackground(new Color(120,178,75));
+                divisionPanel.setBackground(new Color(120, 178, 75));
                 JLabel divisionName = new JLabel();
                 divisionName.setText(jo.getString("name"));
                 divisionPanel.add(divisionName);
                 levelPanel.add(divisionPanel);
-                
-                int selectedDivision = jo.getInt("divisionID");
-                
-                divisionPanel.addMouseListener =
+
+                String selectedDivision = jo.getString("name");
+
+                divisionPanel.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        mainPanel.removeAll();
+                        nameOfDivision = selectedDivision;
+                        loadEmployeeData(nameOfDivision);
+                    }
+                });
+
+            }
+            List<Integer> sort = new ArrayList<>(levelPanels.keySet());
+            Collections.sort(sort);
+
+            for (Integer key : sort) {
+                divisionPanel.add(levelPanels.get(key));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
+
     private void createDivisionsList() {
         Request getDivisions = new Request.Builder()
                 .url("http://localhost:8080/api/v1/division/allDivision")
@@ -139,6 +156,7 @@ public class EmployeeForm extends javax.swing.JFrame {
                     }
                 });
             }
+            mainPanel.revalidate();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
