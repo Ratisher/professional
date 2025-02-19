@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.mycompany_testAPI_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.mycompany.testapi.entity.Eventstatus</class>
+    <class>com.mycompany.testapi.entity.Reasonofabsence</class>
+    <class>com.mycompany.testapi.entity.Employee</class>
+    <class>com.mycompany.testapi.entity.EmployeeWorkingcalendar</class>
+    <class>com.mycompany.testapi.entity.Typeofmaterial</class>
+    <class>com.mycompany.testapi.entity.Training</class>
+    <class>com.mycompany.testapi.entity.Material</class>
+    <class>com.mycompany.testapi.entity.TrainingMaterial</class>
+    <class>com.mycompany.testapi.entity.Document</class>
+    <class>com.mycompany.testapi.entity.Applicant</class>
+    <class>com.mycompany.testapi.entity.Comment</class>
+    <class>com.mycompany.testapi.entity.Division</class>
+    <class>com.mycompany.testapi.entity.Position</class>
+    <class>com.mycompany.testapi.entity.ApplicantEvent</class>
+    <class>com.mycompany.testapi.entity.EmployeeTraining</class>
+    <class>com.mycompany.testapi.entity.Absence</class>
+    <class>com.mycompany.testapi.entity.Statusofmaterial</class>
+    <class>com.mycompany.testapi.entity.Typeofevent</class>
+    <class>com.mycompany.testapi.entity.Workingcalendar</class>
+    <class>com.mycompany.testapi.entity.Sphere</class>
+    <class>com.mycompany.testapi.entity.Responsibleemployees</class>
+    <class>com.mycompany.testapi.entity.Event</class>
+    <class>com.mycompany.testapi.entity.Education</class>
+    <class>com.mycompany.testapi.entity.Employee_1</class>
+    <class>com.mycompany.testapi.entity.Division_1</class>
+    <class>com.mycompany.testapi.entity.Position_1</class>
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://SRV-1208-1:3306/salnikov?serverTimezone=Asia/Novokuznetsk&amp;useSLL=false"/>
+      <property name="jakarta.persistence.jdbc.user" value="salnikov"/>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="jakarta.persistence.jdbc.password" value="salnikov"/>
+    </properties>
+  </persistence-unit>
+</persistence>

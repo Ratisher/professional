@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #78B24B;
+    height: 130px;
+    display: flex;
+    align-items: center;
+}
+
+header input {
+    height: 35px;
+    width: 60%;
+}
+
+main {
+    min-height: 850px;
+}
+
+.logo {
+    border-radius: 100px;
+    background-color: #89FC43;
+    width: 80px;
+    height: 80px;
+    margin-left: 15px;
+}
+
+authorization {
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 350px;
+    background-color: grey;
+}
